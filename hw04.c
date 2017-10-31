@@ -14,6 +14,7 @@ typedef struct {
   char *last_name;
   char *major_school;
   char *year;
+  int filled;
 } Student;
 
 void print_student(Mode m, Student s) 
@@ -59,6 +60,7 @@ int main(int argc, char **argv)
 		char *input;
 		while(input = strsep(&buffer," \n"))
 		{
+			s[j].filled = 1;
 			if( i == 0)
 				s[j].first_name = input;
 			else if(i == 1)
@@ -72,11 +74,24 @@ int main(int argc, char **argv)
 		j++;
 		buffer = realloc(buffer,256);
 	}
+	int temp,sid;
+	printf("Mode Student\n");
 	while(fgets(buf,255,stdin))
 	{
-		Mode m = buf[2] - '0';
-		int sid = buf[0] - '0';
-		print_student(m,s[sid]);
+		if(sscanf(buf, "%d %d\n", &temp, &sid) == 2)
+		{
+			Mode m = temp;
+			if(s[sid].filled != 1)
+			{
+				printf("No Such Entry on Given File\n");
+			}
+			else if(m>3 || m < 0)
+				printf("Not a Valid Mode\n");
+			else 
+				print_student(m,s[sid]);
+		}
+		else
+			printf("Not a Valid Input\n");
 	}	
 		
 		
