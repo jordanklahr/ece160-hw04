@@ -58,27 +58,39 @@ int main(int argc, char **argv)
 	{	
 		i = 0;
 		char *input;
-		while(input = strsep(&buffer," \n"))
+		char * pbuf = buffer;
+		while(input = strsep(&pbuf," \n"))
 		{
 			s[j].filled = 1;
 			if( i == 0)
-				s[j].first_name = input;
+			{
+				s[j].first_name = malloc(256);
+				strcpy(s[j].first_name,input);
+			}
 			else if(i == 1)
-				s[j].last_name = input;
+			{
+				s[j].last_name = malloc(256);
+				strcpy(s[j].last_name,input);
+			}
 			else if( i == 2)
-				s[j].major_school = input;
+			{
+				s[j].major_school = malloc(256);
+				strcpy(s[j].major_school,input);
+			}
 			else if(i == 3)
-				s[j].year = input;
+			{
+				s[j].year = malloc(256);
+				strcpy(s[j].year,input);
+			}
 			i++;		
 		}
 		j++;
-		buffer = realloc(buffer,256);
 	}
+	//free(buffer);
 	int temp,sid;
-	printf("Mode Student\n");
 	while(fgets(buf,255,stdin))
 	{
-		if(sscanf(buf, "%d %d\n", &temp, &sid) == 2)
+		if(sscanf(buf, "%d %d\n", &sid, &temp) == 2)
 		{
 			Mode m = temp;
 			if(s[sid].filled != 1)
